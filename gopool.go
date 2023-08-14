@@ -90,6 +90,8 @@ func (p *GoPool) worker(task func()) {
 }
 func (p *GoPool) shrink() {
 	ticker := time.NewTicker(p.options.shrinkPeriod)
+	go ticker.Stop()
+
 	for {
 		select {
 		case <-ticker.C:
@@ -97,13 +99,13 @@ func (p *GoPool) shrink() {
 			p.doTaskN.Store(0)
 			if doTaskN < p.options.tasksBelowN {
 				closeN := p.workerN.Load() - p.options.minWorkers
-				for i := closeN; i > 0; i-- {
+				for closeN > 0 {
 					p.queue <- nil
+					closeN--
 				}
 			}
 		}
 	}
-	ticker.Stop()
 }
 
 // Detecting illegal struct copies using `go vet`
