@@ -7,6 +7,8 @@ import (
 
 // GoPool is a minimalistic goroutine pool that provides a pure Go implementation
 type GoPool struct {
+	noCopy
+
 	queueLen atomic.Int32
 	doTaskN  atomic.Int32
 	workerN  atomic.Int32
@@ -103,3 +105,9 @@ func (p *GoPool) shrink() {
 	}
 	ticker.Stop()
 }
+
+// Detecting illegal struct copies using `go vet`
+type noCopy struct{}
+
+func (*noCopy) Lock()   {}
+func (*noCopy) Unlock() {}
