@@ -90,7 +90,7 @@ func (p *GoPool) worker(task func()) {
 }
 func (p *GoPool) shrink() {
 	ticker := time.NewTicker(p.options.shrinkPeriod)
-	go ticker.Stop()
+	defer ticker.Stop()
 
 	for {
 		select {
