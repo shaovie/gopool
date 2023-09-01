@@ -34,20 +34,20 @@ func setOptions(optL ...Option) options {
 
 // QueueCap set the capacity of the pool's queue
 func QueueCap(v int32) Option {
+	if v < 1 {
+		panic("gopool:QueueCap: param is illegal")
+	}
 	return func(o *options) {
-		if v < 1 {
-			panic("gopool:QueueCap: param is illegal")
-		}
 		o.queueCap = v
 	}
 }
 
 // MinWorkers set min workers
 func MinWorkers(v int32) Option {
+	if v < 1 {
+		panic("gopool:MinWorkers: param is illegal")
+	}
 	return func(o *options) {
-		if v < 1 {
-			panic("gopool:MinWorkers: param is illegal")
-		}
 		o.minWorkers = v
 	}
 }
@@ -64,30 +64,30 @@ func MaxWorkers(v int32) Option {
 
 // ShrinkPeriod set shrink cycle
 func ShrinkPeriod(v time.Duration) Option {
+	if v < 1 {
+		panic("gopool:ShrinkPeriod: param is illegal")
+	}
 	return func(o *options) {
-		if v < 1 {
-			panic("gopool:ShrinkPeriod: param is illegal")
-		}
 		o.shrinkPeriod = v
 	}
 }
 
 // TasksBelowNToShrink set shrink condition
 func TasksBelowNToShrink(v int32) Option {
+	if v < 1 {
+		panic("gopool:TasksBelowNToShrink: param is illegal")
+	}
 	return func(o *options) {
-		if v < 1 {
-			panic("gopool:TasksBelowNToShrink: param is illegal")
-		}
 		o.tasksBelowN = v
 	}
 }
 
 // PanicHandler set panic handler
 func PanicHandler(fn func(any)) Option {
+	if fn == nil {
+		panic("gopool:PanicHandler: param is illegal")
+	}
 	return func(o *options) {
-		if fn == nil {
-			panic("gopool:PanicHandler: param is illegal")
-		}
 		o.panicHandler = fn
 	}
 }
