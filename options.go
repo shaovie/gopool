@@ -4,8 +4,8 @@ import (
 	"time"
 )
 
-// Options provides all optional parameters
-type Options struct {
+// options provides all optional parameters
+type options struct {
 	queueCap     int32
 	minWorkers   int32
 	maxWorkers   int32
@@ -15,10 +15,10 @@ type Options struct {
 }
 
 // Option function
-type Option func(*Options)
+type Option func(*options)
 
-func setOptions(optL ...Option) Options {
-	opts := Options{
+func setOptions(optL ...Option) options {
+	opts := options{
 		queueCap:     128,
 		minWorkers:   8,
 		maxWorkers:   256,
@@ -34,7 +34,7 @@ func setOptions(optL ...Option) Options {
 
 // QueueCap set the capacity of the pool's queue
 func QueueCap(v int32) Option {
-	return func(o *Options) {
+	return func(o *options) {
 		if v > 0 {
 			o.queueCap = v
 		}
@@ -43,7 +43,7 @@ func QueueCap(v int32) Option {
 
 // MinWorkers set min workers
 func MinWorkers(v int32) Option {
-	return func(o *Options) {
+	return func(o *options) {
 		if v > 0 {
 			o.minWorkers = v
 		}
@@ -52,7 +52,7 @@ func MinWorkers(v int32) Option {
 
 // MaxWorkers set max workers
 func MaxWorkers(v int32) Option {
-	return func(o *Options) {
+	return func(o *options) {
 		if v > 0 {
 			o.maxWorkers = v
 		}
@@ -61,7 +61,7 @@ func MaxWorkers(v int32) Option {
 
 // ShrinkPeriod set shrink cycle
 func ShrinkPeriod(v time.Duration) Option {
-	return func(o *Options) {
+	return func(o *options) {
 		if v > 0 {
 			o.shrinkPeriod = v
 		}
@@ -70,7 +70,7 @@ func ShrinkPeriod(v time.Duration) Option {
 
 // TasksBelowNToShrink set shrink condition
 func TasksBelowNToShrink(v int32) Option {
-	return func(o *Options) {
+	return func(o *options) {
 		if v > 0 {
 			o.tasksBelowN = v
 		}
@@ -79,7 +79,7 @@ func TasksBelowNToShrink(v int32) Option {
 
 // PanicHandler set panic handler
 func PanicHandler(fn func(any)) Option {
-	return func(o *Options) {
+	return func(o *options) {
 		if fn != nil {
 			o.panicHandler = fn
 		}

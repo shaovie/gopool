@@ -12,7 +12,7 @@ type GoPool struct {
 	queueLen atomic.Int32
 	doTaskN  atomic.Int32
 	workerN  atomic.Int32
-	options  Options
+	options  options
 
 	workerSem chan struct{}
 	queue     chan func()
